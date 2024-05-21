@@ -10,7 +10,6 @@ from read_job_posting import extract_text_from_url
 from splitter import split_text_documents
 
 def get_cover_letter(url, pdf):
-
     pdf_doc = load_pdf(pdf)
     job_post = extract_text_from_url(url)
 
@@ -28,11 +27,13 @@ def get_cover_letter(url, pdf):
 
     pdf_qa = RetrievalQA.from_chain_type(
         llm,
-        retriever=vectordb.as_retriever(search_kwargs={'k': 6}),
+        retriever=vectordb.as_retriever(),
         chain_type="stuff",
     )
 
-    query = 'Write a cover letter for given CV and Job posting in a conversational style and fill out the writers name in the end using cv'
+    query = f"""
+    Write a cover letter for given CV and Job posting in a conversational style and fill out the writers name in the end using cv
+    """
 
     result = pdf_qa.run(query)
 
