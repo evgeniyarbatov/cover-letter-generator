@@ -9,7 +9,7 @@ from langchain.prompts import PromptTemplate
 from utils import url_text, pdf_text, get_documents
 
 PROMPT_TEMPLATE = """
-{{question}}
+{question}
 
 CV is the text between triple backticks. The job description is the text between <> brackets.
 
@@ -17,7 +17,7 @@ CV: ```{cv}```
 
 Job description: <{job_description}>
 
-Additional context: {{context}}
+Additional context: {context}
 """
 
 def get_cover_letter(
@@ -32,14 +32,16 @@ def get_cover_letter(
     for additional_pdf in additional_pdfs:
         additional_text += pdf_text(additional_pdf)
 
-    documents = [
-        get_documents(cv),
-        get_documents(job_description),
-        get_documents(additional_text),
-    ]
+    documents = []
+    
+    documents.extend(get_documents(cv))
+    documents.extend(get_documents(job_description))
+    documents.extend(get_documents(additional_text))
+
     embedding_function = SentenceTransformerEmbeddings(
         model_name="all-MiniLM-L6-v2"
     )
+
     vectordb = Chroma.from_documents(documents, embedding=embedding_function)
 
     llm = Ollama(
@@ -47,18 +49,19 @@ def get_cover_letter(
     )
 
     prompt = PromptTemplate(
-        input_variables=["job_description", "cv"],
+        input_variables=["context", "query"],
         template=PROMPT_TEMPLATE,
-    )
-    prompt = prompt.format(
-        cv=cv,
-        job_description=job_description,
+        partial_variables={
+            'cv': cv,
+            'job_description': job_description,
+        }
     )
 
     qa = RetrievalQA.from_chain_type(
         llm,
         retriever=vectordb.as_retriever(),
-        chain_type="stuff",
+        return_source_documents=True,
+        chain_type="stuff", 
         chain_type_kwargs={
             "prompt": prompt,
         }
