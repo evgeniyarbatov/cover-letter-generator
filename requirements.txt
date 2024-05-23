@@ -6,3 +6,4 @@ PyPDF2
 bs4
 chromadb
 requests
+watchdog

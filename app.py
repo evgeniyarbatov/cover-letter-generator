@@ -1,15 +1,32 @@
 import streamlit as st
-from main import get_cover_letter
+
+from llm import get_cover_letter
+
 st.title('Cover Letter Generator')
 
-def generate_response(url, cv):
-  output = get_cover_letter(url, cv)
-  st.write(output)
-
 with st.form('my_form'):
-    text = st.text_area('Enter LinkedIn Job URL:', '')
-    files = st.file_uploader("Upload files", type=["pdf"], accept_multiple_files=False)
+    job_url = st.text_area('LinkedIn URL:', '')
+
+    cv_pdf = st.file_uploader(
+      "CV", 
+      type=["pdf"], 
+      accept_multiple_files=False
+    )
+
+    additional_pdfs = st.file_uploader(
+      "Additional documents", 
+      type=["pdf"], 
+      accept_multiple_files=True,
+    )
 
     submitted = st.form_submit_button('Submit')
+  
     if submitted:
-        generate_response(text, files)
+      output = get_cover_letter(
+        job_url, 
+        cv_pdf,
+        additional_pdfs,
+      )
+
+      st.write(output)
+      st.download_button('Download', output)
