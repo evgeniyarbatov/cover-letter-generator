@@ -11,13 +11,17 @@ from utils import url_text, pdf_text, get_documents
 PROMPT_TEMPLATE = """
 {question}
 
-CV is the text between triple backticks. The job description is the text between <> brackets.
+CV is the text between triple backticks. 
+
+Additional information about my skills is betweeen [] brackets.
+
+The description of the job you are appplying for is the text between <> brackets.
 
 CV: ```{cv}```
 
-Job description: <{job_description}>
+Additional context: [{context}]
 
-Additional context: {context}
+Job description: <{job_description}>
 """
 
 def get_cover_letter(

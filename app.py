@@ -28,5 +28,4 @@ with st.form('my_form'):
         additional_pdfs,
       )
 
-      st.write(output)
-      st.download_button('Download', output)
+      st.write(output['result'])
