@@ -3,7 +3,7 @@ import requests
 from PyPDF2 import PdfReader
 from bs4 import BeautifulSoup
 
-from langchain.text_splitter import CharacterTextSplitter, RecursiveCharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 def pdf_text(pdf):
     pdf_reader = PdfReader(pdf)
