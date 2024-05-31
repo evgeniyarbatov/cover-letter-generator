@@ -13,9 +13,11 @@ from utils import url_text, pdf_text, get_documents
 PROMPT_TEMPLATE = """
 {question}
 
+{context}
+
 CV is the text between triple backticks. 
 
-The description of the job you are applying for is the text between <> brackets.
+Job description is between <> brackets.
 
 CV: ```{cv}``` 
 
