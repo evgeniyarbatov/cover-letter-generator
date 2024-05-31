@@ -13,13 +13,12 @@ PROMPT_TEMPLATE = """
 
 CV is the text between triple backticks. 
 
-Additional information about my skills is betweeen [] brackets.
+The description of the job you are applying for is the text between <> brackets.
 
-The description of the job you are appplying for is the text between <> brackets.
-
-CV: ```{cv}```
-
-Additional context: [{context}]
+CV: ```
+{cv}
+{context}
+``` 
 
 Job description: <{job_description}>
 """
