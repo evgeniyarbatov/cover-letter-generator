@@ -15,13 +15,9 @@ PROMPT_TEMPLATE = """
 
 CV is the text between triple backticks. 
 
-Extra cover letter points are between [] brackets.
-
 The description of the job you are applying for is the text between <> brackets.
 
 CV: ```{cv}``` 
-
-Cover letter points: [{context}]
 
 Job description: <{job_description}>
 """
@@ -43,7 +39,6 @@ def get_llm():
 def get_cover_letter(
   job_url, 
   cv_pdf,
-  additional_pdfs,
 ):
   job_description = url_text(job_url)
   cv = pdf_text(cv_pdf)
@@ -51,10 +46,6 @@ def get_cover_letter(
   documents = []
   documents.extend(get_documents(cv))
   documents.extend(get_documents(job_description))
-
-  for additional_pdf in additional_pdfs:
-    additional_text = pdf_text(additional_pdf)
-    documents.extend(get_documents(additional_text))
 
   embedding_function = SentenceTransformerEmbeddings(
     model_name="all-MiniLM-L6-v2"
@@ -84,7 +75,7 @@ def get_cover_letter(
   )
 
   result = qa({
-    "query": "Write a cover letter for given CV and Job posting in a conversational style"
+    "query": "Write a cover letter for given CV and Job posting in a conversational style. Make it conscise. Do not copy sentences from job description."
   })
 
   return result
