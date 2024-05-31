@@ -15,12 +15,13 @@ PROMPT_TEMPLATE = """
 
 CV is the text between triple backticks. 
 
+Extra cover letter points are between [] brackets.
+
 The description of the job you are applying for is the text between <> brackets.
 
-CV: ```
-{cv}
-{context}
-``` 
+CV: ```{cv}``` 
+
+Cover letter points: [{context}]
 
 Job description: <{job_description}>
 """
