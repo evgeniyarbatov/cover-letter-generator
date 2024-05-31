@@ -3,7 +3,7 @@
 Install dependencies:
 
 ```
-python3.12 -m venv ~/.venv/cover_generator_app
+python3 -m venv ~/.venv/cover_generator_app
 source ~/.venv/cover_generator_app/bin/activate
 pip install -r requirements.txt
 ```
