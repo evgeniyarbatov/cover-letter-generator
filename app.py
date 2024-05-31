@@ -2,10 +2,11 @@ import streamlit as st
 
 from llm import get_cover_letter
 
+st.set_page_config(page_title="LLM")
+
 st.title('Cover Letter Generator')
 
 cv_path = 'pdfs/cv.pdf'
-
 additional_paths = [
   'pdfs/business engineer.pdf',
   'pdfs/employment verification.pdf',
